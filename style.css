@@ -1,0 +1,18 @@
+#container {
+    display: grid;
+    height: 700px;
+    width: 1000px;
+}
+
+#contents {
+    border-top: black solid 1px;;
+}
+
+.tableRow {
+    display: grid;
+    height: 33.28px;
+    border-bottom: black solid 1px;
+    border-right: black solid 1px;
+    border-left: black solid 1px;;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
