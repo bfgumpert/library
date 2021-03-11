@@ -14,5 +14,41 @@
     border-bottom: black solid 1px;
     border-right: black solid 1px;
     border-left: black solid 1px;;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 50px 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.tableText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: black solid 1px;
+    margin: 0px;
+}
+
+#button5 {
+    /*border-right: black solid 1px;*/
+}
+
+#addBookButton {
+    margin-bottom: 10px;
+}
+
+#bookForm{
+    visibility:hidden;
+    position:absolute;
+    background:rgb(255, 255, 255);
+    border:2px solid #3c3c3c;
+    color:white;
+    z-index:100;
+    width: 200px;
+    height:100px;
+    padding:20px;
+}
+
+.dimmer{
+    background: #000;
+    position: absolute;
+    opacity: .5;
+    top: 0;
+    z-index:99;
 }
