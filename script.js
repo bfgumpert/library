@@ -32,6 +32,17 @@ function displayLibrary() {
     })
 }
 
+function removeFromLibrary(rowId) {
+    /* old solution that works (still needed to delete from library tho)
+    let rowElementChilds = document.getElementById(rowId).childNodes;
+    for (let i = 1; i < 7; i++) {
+        if (i < 5) {rowElementChilds[i].textContent = "";}
+        else {rowElementChilds[i].style.display = "none";}
+    } */
+    myLibrary.splice(Number(rowId.slice(-1), 1);
+    displayLibrary();
+}
+
 
 const container = document.querySelector('#container');
 
@@ -67,6 +78,11 @@ function htmlManipulation() {
                 if (j == 6) {data.textContent = "Remove"}
             }
             tableEntry.appendChild(data);
+            if (j == 6) {
+                data.addEventListener("click", e => {
+                    removeFromLibrary(tableEntry.id);
+                })
+            }
         }
 
         row0text1.textContent = "Title";
@@ -75,37 +91,61 @@ function htmlManipulation() {
         row0text4.textContent = "Read Status";
     }
 }
-
-addBookButton.onclick = function(){
-    
-    let lightbox = document.getElementById("bookForm"),
-        dimmer = document.createElement("div");
-    
-    dimmer.style.width =  window.innerWidth + 'px';
-    dimmer.style.height = window.innerHeight + 'px';
-    dimmer.className = 'dimmer';
-    
-    dimmer.onclick = function(){
-        document.body.removeChild(this);   
-        lightbox.style.visibility = 'hidden';
-    }
+function addBook (header) {
+    addBookButton.addEventListener("click", function(){
+        let lightbox = document.getElementById("bookForm");
+        let dimmer = document.createElement("div");
         
-    document.body.appendChild(dimmer);
-    
-    lightbox.style.visibility = 'visible';
-    lightbox.style.top = window.innerHeight/2 - 50 + 'px';
-    lightbox.style.left = window.innerWidth/2 - 100 + 'px';
-    return false;
+        dimmer.style.width =  window.innerWidth + 'px';
+        dimmer.style.height = window.innerHeight + 'px';
+        dimmer.classList = 'dimmer';
+        dimmer.id = "dimmer"
+        
+        document.body.appendChild(dimmer);
+
+        let exitElements = "";
+
+        if (eventExists == 0) {
+            exitElements = document.querySelectorAll(".dimmer, #formCancelBtn");
+            eventExists = 1;
+        }
+        else {
+            exitElements = document.querySelectorAll(".dimmer");
+        }
+
+        exitElements.forEach(e => {
+            e.addEventListener("click", () => {
+                document.body.removeChild(document.getElementById("dimmer"));   
+                lightbox.style.visibility = 'hidden';
+            })
+        })
+
+        document.getElementById("formHeader").innerHTML = "header";
+        
+        lightbox.style.visibility = 'visible';
+        lightbox.style.top = window.innerHeight/2 - 50 + 'px';
+        lightbox.style.left = window.innerWidth/2 - 100 + 'px';
+        return false;
+    })
 }
 
-formConfirmBtn.onclick = function() {
+formConfirmBtn.addEventListener("click", function() {
     let userTitle = document.getElementById("formTitle").value;
-    let userAuthor = document.getElementById("formTitle").value;
-    let userPages = document.getElementById("formTitle").value;
-    let userRead = document.getElementById("formTitle").value;
+    let userAuthor = document.getElementById("formAuthor").value;
+    let userPages = document.getElementById("formPages").value;
+    let userRead = document.getElementById("formRead").value;
     addBookToLibrary(userTitle, userAuthor, userPages, userRead);
     displayLibrary();
-}
+})
+
+let eventExists = 0;
 
 htmlManipulation();
 displayLibrary();
+addBook("Create");
+
+let asdf = document.querySelectorAll("#addBookButton, #formCancelBtn");
+let serysedrfgas = document.getElementById("addBookButton");
+
+console.log(asdf);
+console.log(serysedrfgas);
