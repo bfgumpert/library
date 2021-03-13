@@ -32,17 +32,29 @@ function displayLibrary() {
     })
 }
 
+function replaceBookInLibrary(title, author, pages, read) {
+    let bookTitle = new Book(title, author, pages, read);
+    myLibrary[rowNumber - 1] = bookTitle;
+    clearDisplay();
+    displayLibrary();
+    document.getElementById("formHeader").innerHTML = "Create";    
+}
+
 function removeFromLibrary(rowId) {
-    /* old solution that works (still needed to delete from library tho)
-    let rowElementChilds = document.getElementById(rowId).childNodes;
-    for (let i = 1; i < 7; i++) {
-        if (i < 5) {rowElementChilds[i].textContent = "";}
-        else {rowElementChilds[i].style.display = "none";}
-    } */
-    myLibrary.splice(Number(rowId.slice(-1), 1);
+    clearDisplay();
+    myLibrary.splice(Number(rowId.slice(-1) - 1), 1);
     displayLibrary();
 }
 
+function clearDisplay() {
+    for (let i = 1; i < 21; i++) {
+        let rowElements = document.getElementById("line" + i).childNodes;
+        for (let i = 1; i < 7; i++) {
+            if (i < 5) {rowElements[i].textContent = "";}
+            else {rowElements[i].style.display = "none";}
+        } 
+    }
+}
 
 const container = document.querySelector('#container');
 
@@ -78,6 +90,13 @@ function htmlManipulation() {
                 if (j == 6) {data.textContent = "Remove"}
             }
             tableEntry.appendChild(data);
+            if (j == 5) {
+                data.addEventListener("click", e => {
+                    document.getElementById("formHeader").innerHTML = "Edit";
+                    rowNumber = tableEntry.id.slice(-1);
+                    addBookButton.click();
+                })
+            }
             if (j == 6) {
                 data.addEventListener("click", e => {
                     removeFromLibrary(tableEntry.id);
@@ -115,12 +134,9 @@ function addBook (header) {
 
         exitElements.forEach(e => {
             e.addEventListener("click", () => {
-                document.body.removeChild(document.getElementById("dimmer"));   
-                lightbox.style.visibility = 'hidden';
+                closeBookForm();
             })
         })
-
-        document.getElementById("formHeader").innerHTML = "header";
         
         lightbox.style.visibility = 'visible';
         lightbox.style.top = window.innerHeight/2 - 50 + 'px';
@@ -134,18 +150,27 @@ formConfirmBtn.addEventListener("click", function() {
     let userAuthor = document.getElementById("formAuthor").value;
     let userPages = document.getElementById("formPages").value;
     let userRead = document.getElementById("formRead").value;
-    addBookToLibrary(userTitle, userAuthor, userPages, userRead);
+    if (document.getElementById("formHeader").innerHTML == "Create") {
+        addBookToLibrary(userTitle, userAuthor, userPages, userRead);
+    }
+    else {
+        replaceBookInLibrary(userTitle, userAuthor, userPages, userRead);
+    }
     displayLibrary();
+    closeBookForm();
 })
 
+function closeBookForm() {
+    let lightbox = document.getElementById("bookForm");
+    
+    document.body.removeChild(document.getElementById("dimmer"));   
+    lightbox.style.visibility = 'hidden';
+    document.getElementById("formHeader").innerHTML = "Create"; 
+}
+
 let eventExists = 0;
+let rowNumber = 0;
 
 htmlManipulation();
 displayLibrary();
 addBook("Create");
-
-let asdf = document.querySelectorAll("#addBookButton, #formCancelBtn");
-let serysedrfgas = document.getElementById("addBookButton");
-
-console.log(asdf);
-console.log(serysedrfgas);
